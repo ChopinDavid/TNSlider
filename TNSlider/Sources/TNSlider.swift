@@ -239,7 +239,7 @@ public class TNSlider: UIControl {
         trackLayer.setNeedsDisplay()
     }
     
-    func updateThumbLayersText(to newValue: String? = nil) {
+    public func updateThumbLayersText(to newValue: String? = nil) {
         thumbLayer.string = newValue ?? textForValue(value)
     }
     
