@@ -309,7 +309,6 @@ public class TNSlider: UIControl {
         
         // Snap to value
         if step > 0 {
-            print("DAVID: \(value.rounded())")
             value = value.rounded()
         }
         
