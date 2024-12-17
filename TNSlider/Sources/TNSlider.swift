@@ -25,7 +25,7 @@ extension String {
 }
 
 @objc public protocol TNSliderDelegate: class {
-    func slider(_ slider: TNSlider, displayTextForValue value: Float) -> String
+    func slider(_ slider: TNSlider, displayTextForValue value: Int) -> String
 }
 
 @IBDesignable
@@ -34,7 +34,7 @@ public class TNSlider: UIControl {
     @IBOutlet weak public var delegate: TNSliderDelegate? {
         didSet {
             //Get maximum value text length
-            if let maxText:String = self.delegate?.slider(self, displayTextForValue: self.maximum)
+            if let maxText:String = self.delegate?.slider(self, displayTextForValue: Int(self.maximum))
             {
                 self.thumbWidth = maxText.width(withConstraintedHeight: self.thumbHeight, font: UIFont.systemFont(ofSize: 11.0)) + 2.0
                 thumbLayer.bounds = CGRect(x: 0, y: 0, width: thumbWidth, height: thumbHeight)
@@ -157,8 +157,8 @@ public class TNSlider: UIControl {
     
     private let trackHeight: CGFloat = 4
     private let trackInset: CGFloat = 0
-    private let thumbHeight: CGFloat = 16
-    private var thumbWidth: CGFloat = 38
+    private let thumbHeight: CGFloat = 24
+    private var thumbWidth: CGFloat = 24
     
     
     required public override init(frame: CGRect) {
@@ -240,7 +240,7 @@ public class TNSlider: UIControl {
     }
     
     public func updateThumbLayersText(to newValue: String? = nil) {
-        thumbLayer.string = newValue ?? textForValue(value)
+        thumbLayer.string = newValue ?? textForValue(Int(value))
     }
     
     func updateThumbLayersPosition() {
@@ -309,8 +309,8 @@ public class TNSlider: UIControl {
         
         // Snap to value
         if step > 0 {
-            let noOfStep = (value/step).rounded(.toNearestOrEven)
-            value = noOfStep * step
+            print("DAVID: \(value.rounded())")
+            value = value.rounded()
         }
         
         if !continuous {
@@ -344,11 +344,11 @@ public class TNSlider: UIControl {
         return CGRect(x: trackInset, y: (bound.size.height - trackHeight) / 2, width: bound.size.width - 2 * trackInset, height: trackHeight)
     }
     
-    func textForValue(_ value: Float) -> String {
+    func textForValue(_ value: Int) -> String {
         if let delegate = delegate {
             return delegate.slider(self, displayTextForValue: value)
         } else {
-            return String(format: "%.2f", value)
+            return String(value)
         }
     }
     
