@@ -312,9 +312,7 @@ public class TNSlider: UIControl {
             value = value.rounded()
         }
         
-        if !continuous {
-            sendActions(for: .valueChanged)
-        }
+        sendActions(for: .valueChanged)
     }
     
     // MARK: - Auto layout
